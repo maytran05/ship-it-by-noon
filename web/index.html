@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f2">
+  <title>Study Spotter | Find your focus</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1d3129;
+      --muted: #68776e;
+      --green: #245c43;
+      --green-dark: #194632;
+      --mint: #e8f1e9;
+      --paper: #fffefa;
+      --line: #e3e8df;
+      --canvas: #f5f7f2;
+      --gold: #e7b45b;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+    }
+
+    .topbar {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(24px, calc((100% - 1120px) / 2));
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: -.02em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--green);
+      color: white;
+      font-size: 17px;
+    }
+
+    .campus-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    main {
+      width: min(100% - 40px, 1000px);
+      margin: 0 auto;
+      padding: 62px 0 80px;
+    }
+
+    .intro {
+      max-width: 690px;
+      margin: 0 auto 34px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      content: "";
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 6vw, 58px);
+      font-weight: 500;
+      letter-spacing: -.045em;
+      line-height: 1.07;
+    }
+
+    .intro p {
+      max-width: 520px;
+      margin: 17px auto 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .search-card {
+      display: grid;
+      grid-template-columns: minmax(190px, 1fr) minmax(210px, 1.2fr) auto;
+      align-items: end;
+      gap: 20px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 12px 35px rgb(34 54 40 / 5%);
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 9px;
+      color: #43544a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    select {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 38px 0 13px;
+      border: 1px solid #d5ddd3;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    select:focus-visible, button:focus-visible, a:focus-visible {
+      outline: 3px solid #a9cdb4;
+      outline-offset: 3px;
+    }
+
+    .check-wrap {
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .check-wrap input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--green);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    button {
+      min-height: 48px;
+      padding: 0 21px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s ease, transform .15s ease;
+    }
+
+    button:hover { background: var(--green-dark); }
+    button:active { transform: translateY(1px); }
+
+    .reset-button {
+      padding: 0 8px;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .reset-button:hover {
+      background: transparent;
+      color: var(--green-dark);
+    }
+
+    .results-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 36px 2px 14px;
+    }
+
+    .results-heading h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 500;
+      letter-spacing: -.02em;
+    }
+
+    .results-count {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .table-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgb(34 54 40 / 4%);
+    }
+
+    .table-scroll { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      padding: 15px 20px;
+      background: #f8faf6;
+      color: #718076;
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 18px 20px;
+      border-top: 1px solid #edf0ea;
+      color: #526158;
+      font-size: 14px;
+    }
+
+    td:first-child {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .noise-pill {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      background: var(--mint);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .outlet-yes { color: var(--green); font-weight: 650; }
+    .outlet-no { color: var(--muted); }
+
+    .message {
+      padding: 28px 20px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footnote {
+      margin: 15px 3px 0;
+      color: #839087;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 700px) {
+      main { padding-top: 44px; }
+      .search-card { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .actions { grid-column: 1 / -1; }
+      .actions button:first-child { flex: 1; }
+    }
+
+    @media (max-width: 480px) {
+      .topbar { height: 60px; padding: 0 18px; }
+      .campus-label { font-size: 11px; }
+      main { width: min(100% - 28px, 1000px); padding-top: 36px; }
+      .intro { margin-bottom: 26px; }
+      .intro p { font-size: 14px; }
+      .search-card { grid-template-columns: 1fr; padding: 19px; }
+      .actions { grid-column: auto; }
+      .results-heading { margin-top: 29px; }
+      th, td { padding-right: 15px; padding-left: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Study Spotter home">
+      <span class="brand-mark" aria-hidden="true">⌂</span>
+      <span>Study Spotter</span>
+    </a>
+    <span class="campus-label">UW campus guide</span>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <span class="eyebrow">Your next study session</span>
+      <h1 id="page-title">Find your focus.</h1>
+      <p>Tell us what helps you concentrate. We’ll find a campus spot that fits your study style.</p>
+    </section>
+
+    <form class="search-card" id="filters">
+      <div>
+        <label class="field-label" for="noise">How quiet should it be?</label>
+        <select id="noise" name="noise">
+          <option value="">Any noise level</option>
+          <option value="silent">Silent</option>
+          <option value="quiet">Quiet</option>
+          <option value="lively">Lively</option>
+        </select>
+      </div>
+      <div>
+        <span class="field-label">Power needs</span>
+        <label class="check-wrap" for="outlets">
+          <input id="outlets" name="outlets" type="checkbox">
+          I need power outlets
+        </label>
+      </div>
+      <div class="actions">
+        <button type="submit">Find a spot <span aria-hidden="true">→</span></button>
+        <button class="reset-button" id="reset" type="button">Reset</button>
+      </div>
+    </form>
+
+    <section aria-labelledby="results-title">
+      <div class="results-heading">
+        <h2 id="results-title">Study spots</h2>
+        <span class="results-count" id="result-count" aria-live="polite">Loading spots…</span>
+      </div>
+      <div class="table-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Study spot</th>
+                <th scope="col">Building</th>
+                <th scope="col">Floor</th>
+                <th scope="col">Noise</th>
+                <th scope="col">Outlets</th>
+                <th scope="col">Hours</th>
+              </tr>
+            </thead>
+            <tbody id="spot-results">
+              <tr><td class="message" colspan="6">Loading study spots…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="footnote">Locations and hours are sample data for this project. Check building signage for current hours.</p>
+    </section>
+  </main>
+
+  <script>
+    const form = document.querySelector("#filters");
+    const noiseInput = document.querySelector("#noise");
+    const outletsInput = document.querySelector("#outlets");
+    const results = document.querySelector("#spot-results");
+    const resultCount = document.querySelector("#result-count");
+
+    function showMessage(message) {
+      results.replaceChildren();
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.className = "message";
+      cell.colSpan = 6;
+      cell.textContent = message;
+      row.append(cell);
+      results.append(row);
+    }
+
+    function renderSpots(spots) {
+      if (spots.length === 0) {
+        showMessage("No spots match those filters. Try changing your preferences.");
+        resultCount.textContent = "No spots found";
+        return;
+      }
+
+      results.replaceChildren();
+      spots.forEach((spot) => {
+        const row = document.createElement("tr");
+        const cells = [
+          [spot.name, ""],
+          [spot.building, ""],
+          [spot.floor, ""],
+          [spot.noise, "noise-pill"],
+          [spot.outlets ? "Available" : "None", spot.outlets ? "outlet-yes" : "outlet-no"],
+          [spot.hours, ""]
+        ];
+
+        cells.forEach(([value, className]) => {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          if (className === "noise-pill") {
+            const badge = document.createElement("span");
+            badge.className = className;
+            badge.textContent = value;
+            cell.replaceChildren(badge);
+          } else if (className) {
+            cell.className = className;
+          }
+          row.append(cell);
+        });
+        results.append(row);
+      });
+      resultCount.textContent = `${spots.length} ${spots.length === 1 ? "spot" : "spots"} found`;
+    }
+
+    async function loadSpots() {
+      showMessage("Loading study spots…");
+      resultCount.textContent = "Loading spots…";
+
+      const params = new URLSearchParams();
+      if (noiseInput.value) params.set("noise", noiseInput.value);
+      if (outletsInput.checked) params.set("outlets", "true");
+
+      try {
+        const response = await fetch(`/api/study-spots?${params}`);
+        if (!response.ok) throw new Error(`Request failed (${response.status})`);
+        const spots = await response.json();
+        if (!Array.isArray(spots)) throw new Error("The server returned an invalid response.");
+        renderSpots(spots);
+      } catch (error) {
+        showMessage("Could not load study spots. Please try again.");
+        resultCount.textContent = "Unable to load spots";
+        console.error("Could not load study spots:", error);
+      }
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      loadSpots();
+    });
+
+    document.querySelector("#reset").addEventListener("click", () => {
+      form.reset();
+      loadSpots();
+    });
+
+    loadSpots();
+  </script>
+</body>
+</html>
